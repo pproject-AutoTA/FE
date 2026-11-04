@@ -6,15 +6,14 @@ AutoTA FE 레포지토리입니다.
 
 ## 기술 스택
 
-| 구분               | 사용                                                                       |
-| ------------------ | -------------------------------------------------------------------------- |
-| 빌드               | Vite 5                                                                     |
-| UI                 | React 18 + TypeScript 5                                                    |
-| 라우팅             | react-router-dom 6                                                         |
-| 아이콘             | lucide-react (stroke 1.75)                                                 |
-| 폰트               | Noto Sans KR (400 / 500 / 700), JetBrains Mono                             |
-| 스타일             | 전역 CSS (`tokens.css` 변수 + `components.css`의 `.cl-*` 클래스)           |
-| 스타일 (전환 예정) | Tailwind CSS 4 (`@tailwindcss/vite`) 설치 완료, 컴포넌트는 순차적으로 전환 |
+| 구분   | 사용                                                                          |
+| ------ | ----------------------------------------------------------------------------- |
+| 빌드   | Vite 5                                                                        |
+| UI     | React 18 + TypeScript 5                                                       |
+| 라우팅 | react-router-dom 6                                                            |
+| 아이콘 | lucide-react (stroke 1.75)                                                    |
+| 폰트   | Noto Sans KR (400 / 500 / 700), JetBrains Mono                                |
+| 스타일 | Tailwind CSS 4 (`@tailwindcss/vite`), 디자인 토큰은 `tailwind.css`의 `@theme` |
 
 ## 시작하기
 
@@ -38,15 +37,12 @@ npm run dev
 src/
 ├─ main.tsx                  # 진입점, 라우터, ToastProvider
 ├─ styles/
-│  ├─ tailwind.css           # Tailwind 불러오기 (초기화 스타일은 제외)
-│  ├─ tokens.css             # 색, 글꼴, 간격, 둥글기, 그림자 변수
-│  ├─ components.css         # 공통 컴포넌트 스타일 (.cl-*)
-│  └─ gallery.css            # /components 화면 전용 (.gl-*)
+│  └─ tailwind.css           # Tailwind 불러오기 + 디자인 토큰(@theme: 색, 글꼴, 둥글기, 그림자)
 ├─ pages/
 │  └─ ComponentGallery.tsx   # 컴포넌트 갤러리
 └─ components/
    ├─ layout/                # 화면 뼈대: AppShell, Sidebar, Topbar, PageHeader ...
-   ├─ ui/                    # 범용 UI: Button, FormField, Card, DataTable, Toast ...
+   ├─ ui/                    # 범용 UI: Button, FormField, Card, DataTable, Toast ... (classes.ts: 공통 클래스)
    └─ domain/                # 채점 서비스 전용: CodeEditor, ScoreDisplay, FlagCard ...
 ```
 
@@ -62,7 +58,7 @@ import { Button, Card, ScoreDisplay } from "../components";
 - Figma Make로 만든 AutoTA 화면(로그인, 홈, 문제 목록, 코드 제출, 교수·관리자 화면)에서 색과 크기를 뽑아 맞췄습니다.
 - 주요 색: 네이비 `#123B70`(사이드바), 파랑 `#1D6FF2`(포인트), 배경 `#F5F7FB`.
 - 주요 크기: 사이드바 384px, 상단바 105px, 버튼 sm 42 / md 56 / lg 64, 입력창 58px, 카드 모서리 20px.
-- 상태 색은 성공 초록, 오류 빨강, FLAG 주황, 안내 파랑, 보라, 중립 회색으로 나눠 쓰며, 모두 `tokens.css`에 변수로 정의되어 있습니다.
+- 상태 색은 성공 초록, 오류 빨강, FLAG 주황, 안내 파랑, 보라, 중립 회색으로 나눠 쓰며, 모두 `src/styles/tailwind.css`의 `@theme`에 정의되어 있습니다. (예: `bg-blue-600`, `text-fg-secondary`, `bg-flag-bg`)
 
 ## 컴포넌트 목록
 
@@ -122,7 +118,9 @@ import { Button, Card, ScoreDisplay } from "../components";
 
 ## 개발 메모
 
+- 스타일은 모두 Tailwind 유틸리티 클래스로 작성합니다. 별도 CSS 파일(`.cl-*`, `.gl-*`)은 없습니다.
+- Tailwind의 초기화 스타일(preflight)은 불러오지 않습니다. 기본 글꼴, 글자 크기, 배경은 `tailwind.css`의 `@layer base`에서 정합니다.
+- 새 색이나 둥글기가 필요하면 컴포넌트에 값을 직접 쓰지 말고 `@theme`에 먼저 추가하세요.
 - CSS import 오류가 나면 `src/vite-env.d.ts` 에 `/// <reference types="vite/client" />` 가 있는지 확인하세요.
 - 폴더 이름은 `components` (복수형)입니다.
 - 새 컴포넌트를 만들면 해당 폴더의 `index.ts`에 한 줄 추가하고, `/components` 화면에도 예시를 넣어 주세요.
-- Tailwind는 초기화 스타일(preflight)을 뺀 상태로 불러옵니다. 기존 `.cl-*` 스타일은 Tailwind 클래스보다 우선하므로, 컴포넌트를 전환할 때 해당 요소에서 `cl-*` 클래스를 빼면서 진행하세요.
