@@ -6,27 +6,32 @@ import {
 import {
   AllowedScopeCard, Badge, Banner, BarChart, Button, Card, Checkbox, ClassCodeBox, CodeBlock, CodeEditor, ConfirmModal, DataTable,
   DateTimePicker, EmptyState, ErrorMessage, FlagCard, FormField, IndexChip, ListRow, MetaStats, NotificationPanel,
-  NumberedSteps, PageHeader, ProgressRing, RadioGroup, SampleIO, ScoreBreakdown, ScoreDisplay, Select, SelectCard, Sidebar,
+  ModalPanel, NumberedSteps, PageHeader, ProgressRing, RadioGroup, SampleIO, ScoreBreakdown, ScoreDisplay, Select, SelectCard, Sidebar,
   SidebarHelpCard, Skeleton, StatCard, Stepper, SubmissionHistoryList, SubmissionStatusBadge, Tabs, TagChip, TagInput,
-  TestcaseGroupCard, Toggle, Topbar, VerdictBadge, useToast,
+  TestcaseGroupCard, Toggle, Topbar, ToastCard, VerdictBadge, useToast,
   type MenuItem, type NotificationItem, type SubmissionStatus, type Tone, type Verdict,
 } from "../components";
-import "../styles/gallery.css";
+import { linkButton } from "../components/ui/classes";
 
 /* ---------- 갤러리 전용 레이아웃 헬퍼 ---------- */
 function Group({ title }: { title: string }) {
-  return <h2 className="gl-group">{title}</h2>;
+  return (
+    <h2 className="col-span-full mx-0 mt-7 mb-0 border-t-2 border-[rgba(24,33,54,.18)] pt-[22px] text-sm leading-[18px] font-bold tracking-[.14em] text-fg-secondary uppercase">
+      {title}
+    </h2>
+  );
 }
+const SPAN = { 2: "col-span-2 max-[1000px]:col-auto", full: "col-span-full" } as const;
 function Section({ title, span, children }: { title: string; span?: 2 | "full"; children: ReactNode }) {
   return (
-    <section className={`gl-sec${span ? ` gl-span-${span}` : ""}`}>
-      <h3 className="gl-title">{title}</h3>
-      <div className="gl-body">{children}</div>
+    <section className={`min-w-0 ${span ? SPAN[span] : ""}`}>
+      <h3 className="m-0 mb-3.5 text-lg leading-[26px] font-bold text-fg">{title}</h3>
+      <div className="grid gap-[18px]">{children}</div>
     </section>
   );
 }
 function Sub({ children }: { children: ReactNode }) {
-  return <div className="gl-sub">{children}</div>;
+  return <div className="mb-2 text-[13px] leading-[18px] font-medium text-fg-secondary">{children}</div>;
 }
 
 /* ---------- 샘플 데이터 ---------- */
@@ -47,10 +52,10 @@ const ROWS: Row[] = [
 ];
 const COLUMNS = [
   { key: "title", header: "문제", render: (r: Row) => (
-    <span className="cl-cell-title"><IndexChip>{String(r.id).padStart(2, "0")}</IndexChip>{r.title}</span>
+    <span className="flex items-center gap-4 text-[17px] leading-6 font-bold text-fg"><IndexChip>{String(r.id).padStart(2, "0")}</IndexChip>{r.title}</span>
   ) },
   { key: "course", header: "과목" },
-  { key: "due", header: "마감", render: (r: Row) => <span className={r.late ? "cl-deadline" : undefined}>{r.due}</span> },
+  { key: "due", header: "마감", render: (r: Row) => <span className={r.late ? "font-bold text-danger-fg" : undefined}>{r.due}</span> },
   { key: "status", header: "제출 상태", render: (r: Row) => <SubmissionStatusBadge status={r.status} /> },
   { key: "score", header: "점수", render: (r: Row) => <ScoreDisplay score={r.score} released={r.released} submitted={r.status !== "NONE"} /> },
 ];
@@ -92,6 +97,7 @@ const ICONS: { name: string; node: ReactNode }[] = [
   { name: "AlertCircle", node: <AlertCircle size={24} strokeWidth={1.75} /> },
   { name: "Loader2", node: <Loader2 size={24} strokeWidth={1.75} /> },
 ];
+const icode = "rounded-sm bg-blue-50 px-2 py-0.5 font-mono text-[.9em] leading-normal font-medium text-[#1D77F4]";
 const ICON_SIZES = [16, 18, 20, 22, 24, 28, 40];
 
 /* ---------- 페이지 ---------- */
@@ -113,29 +119,29 @@ export function ComponentGallery() {
   const [reason, setReason] = useState("");
 
   return (
-    <div className="gl-page">
-      <header className="gl-head">
-        <h1>Components</h1>
-        <p>공통 컴포넌트가 의도한 모양으로 만들어졌는지 확인하는 화면이에요. (/components)</p>
+    <div className="box-border min-h-screen bg-[#CDD1E0] px-16 pt-14 pb-[120px] max-[1000px]:px-5 max-[1000px]:pt-8 max-[1000px]:pb-[72px]">
+      <header className="mx-auto mb-2 max-w-[1760px]">
+        <h1 className="m-0 mb-1.5 text-[32px] leading-10 font-bold">Components</h1>
+        <p className="m-0 text-base leading-6 text-fg-secondary">공통 컴포넌트가 의도한 모양으로 만들어졌는지 확인하는 화면이에요. (/components)</p>
       </header>
 
-      <div className="gl-grid">
+      <div className="mx-auto grid max-w-[1760px] grid-cols-[repeat(auto-fill,minmax(440px,1fr))] items-start gap-x-14 gap-y-12 max-[1000px]:grid-cols-1">
         {/* ============ FORM ============ */}
         <Group title="Form" />
 
         <Section title="Button">
-          <div className="gl-row">
+          <div className="flex flex-wrap items-center gap-3.5">
             <Button size="lg" icon={undefined}>로그인<ArrowRight size={20} strokeWidth={1.75} /></Button>
           </div>
-          <div className="gl-row">
+          <div className="flex flex-wrap items-center gap-3.5">
             <Button>Primary Button</Button>
             <Button variant="secondary">Secondary Button</Button>
           </div>
-          <div className="gl-row">
+          <div className="flex flex-wrap items-center gap-3.5">
             <Button size="sm">Small Button</Button>
             <Button size="sm" variant="secondary">Small Secondary</Button>
           </div>
-          <div className="gl-row">
+          <div className="flex flex-wrap items-center gap-3.5">
             <Button icon={<Copy size={18} strokeWidth={1.75} />}>With icon</Button>
             <Button loading>Loading</Button>
             <Button disabled>Disabled</Button>
@@ -180,7 +186,7 @@ export function ComponentGallery() {
         </Section>
 
         <Section title="SelectCard (로그인 역할 선택)" span={2}>
-          <div role="radiogroup" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 14 }}>
+          <div role="radiogroup" className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-3.5">
             <SelectCard icon={<Code2 size={26} strokeWidth={1.75} />} title="학생" description="문제 풀이와 채점 결과 확인" selected={selRole === "student"} onSelect={() => setSelRole("student")} />
             <SelectCard icon={<FileText size={26} strokeWidth={1.75} />} title="교수" description="과제 관리와 점수 확정" selected={selRole === "professor"} onSelect={() => setSelRole("professor")} />
             <SelectCard icon={<Users size={26} strokeWidth={1.75} />} title="관리자" description="시스템과 사용자 관리" selected={selRole === "admin"} onSelect={() => setSelRole("admin")} />
@@ -195,26 +201,24 @@ export function ComponentGallery() {
         <Group title="Overlay & Feedback" />
 
         <Section title="Modal">
-          <div className="cl-modal" style={{ width: "100%", maxWidth: 480, boxSizing: "border-box", boxShadow: "var(--sh-md)" }}>
-            <h2>점수를 공개할까요?</h2>
-            <p>미확정 7건은 공개 시점에 자동 채점 점수로 확정돼요.</p>
-            <div className="cl-modal-actions">
+          <div className="[&>div]:w-full [&>div]:max-w-[480px] [&>div]:shadow-md">
+            <ModalPanel title="점수를 공개할까요?" description="미확정 7건은 공개 시점에 자동 채점 점수로 확정돼요.">
               <Button variant="secondary">취소</Button>
               <Button>점수 공개</Button>
-            </div>
+            </ModalPanel>
           </div>
-          <div className="gl-row"><Button variant="secondary" size="sm" onClick={() => setModal(true)}>실제 모달 열기</Button></div>
+          <div className="flex flex-wrap items-center gap-3.5"><Button variant="secondary" size="sm" onClick={() => setModal(true)}>실제 모달 열기</Button></div>
           <ConfirmModal open={modal} title="점수를 공개할까요?" description="미확정 7건은 공개 시점에 자동 채점 점수로 확정돼요."
             confirmLabel="점수 공개" onCancel={() => setModal(false)} onConfirm={() => { setModal(false); toast("success", "점수를 공개했어요"); }} />
         </Section>
 
         <Section title="Toast">
-          <div className="gl-toast-static">
-            <div className="cl-toast cl-toast--success"><Check size={24} strokeWidth={2} />입력한 이메일로 비밀번호 재설정 안내를 보냈습니다.</div>
-            <div className="cl-toast"><Info size={24} strokeWidth={2} />안내 메시지예요</div>
-            <div className="cl-toast cl-toast--error"><AlertCircle size={24} strokeWidth={2} />저장하지 못했어요</div>
+          <div className="grid gap-3 [&>div]:w-full">
+            <ToastCard kind="success"><Check size={24} strokeWidth={2} />입력한 이메일로 비밀번호 재설정 안내를 보냈습니다.</ToastCard>
+            <ToastCard><Info size={24} strokeWidth={2} />안내 메시지예요</ToastCard>
+            <ToastCard kind="error"><AlertCircle size={24} strokeWidth={2} />저장하지 못했어요</ToastCard>
           </div>
-          <div className="gl-row">
+          <div className="flex flex-wrap items-center gap-3.5">
             <Button size="sm" variant="secondary" onClick={() => toast("success", "입력한 이메일로 비밀번호 재설정 안내를 보냈습니다.")}>success</Button>
             <Button size="sm" variant="secondary" onClick={() => toast("info", "안내 메시지예요")}>info</Button>
             <Button size="sm" variant="secondary" onClick={() => toast("error", "저장하지 못했어요")}>error</Button>
@@ -228,14 +232,14 @@ export function ComponentGallery() {
         </Section>
 
         <Section title="NotificationPanel">
-          <div className="gl-notif-static">
+          <div className="[&>div]:shadow-md">
             <NotificationPanel title="학생 알림" items={NOTIFS} />
           </div>
         </Section>
 
         <Section title="ErrorMessage / Skeleton">
           <ErrorMessage>채점 결과를 불러오지 못했어요</ErrorMessage>
-          <div style={{ display: "grid", gap: 10 }}><Skeleton /><Skeleton width="70%" /><Skeleton width="40%" /></div>
+          <div className="grid gap-2.5"><Skeleton /><Skeleton width="70%" /><Skeleton width="40%" /></div>
         </Section>
 
         <Section title="EmptyState">
@@ -246,7 +250,7 @@ export function ComponentGallery() {
         <Group title="Navigation & Layout" />
 
         <Section title="Sidebar (+ SidebarHelpCard)">
-          <div className="gl-sidebar-box">
+          <div className="flex h-[1000px] w-[384px] max-w-full flex-col overflow-hidden rounded-2xl [&>aside]:static [&>aside]:h-full [&>aside]:flex-1">
             <Sidebar role="student" userInitial="김" menuItems={MENU} activePath="/problems" sectionLabel="학습"
               onNavigate={() => {}} onLogout={() => toast("info", "로그아웃")}
               helpCard={<SidebarHelpCard onClick={() => toast("info", "이용 가이드")} />} />
@@ -254,8 +258,8 @@ export function ComponentGallery() {
         </Section>
 
         <Section title="Header (Topbar) / PageHeader" span={2}>
-          <div className="gl-clip"><Topbar user={{ name: "김민준", sub: "컴퓨터공학과 · 20240123" }} hasUnread /></div>
-          <div className="gl-white">
+          <div className="overflow-hidden rounded-2xl"><Topbar user={{ name: "김민준", sub: "컴퓨터공학과 · 20240123" }} hasUnread /></div>
+          <div className="rounded-2xl bg-surface p-6">
             <PageHeader eyebrow="STUDENT · PROBLEMS" title="문제 목록" description="수강 중인 강의의 과제를 확인하고 제출하세요."
               actions={<Button variant="secondary">내 화면으로 돌아가기</Button>} />
           </div>
@@ -286,14 +290,14 @@ export function ComponentGallery() {
 
         <Section title="Card" >
           <Card title="진행 중 과제" subtitle="마감일이 가까운 순서로 표시됩니다."
-            action={<button type="button" className="cl-link">전체 보기<ArrowRight size={18} strokeWidth={1.75} /></button>}>
+            action={<button type="button" className={linkButton}>전체 보기<ArrowRight size={18} strokeWidth={1.75} /></button>}>
             기본 카드예요.
           </Card>
           <Card highlight>강조 카드예요.</Card>
         </Section>
 
         <Section title="StatCard (톤별)" span={2}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 16 }}>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
             <StatCard tone="blue" icon={<BookOpen size={28} strokeWidth={1.75} />} label="진행 중 과제" value={3} sub="이번 주 마감 2개" />
             <StatCard tone="green" icon={<CheckCircle2 size={28} strokeWidth={1.75} />} label="완료한 문제" value={12} sub="전체 18개 중" />
             <StatCard tone="purple" icon={<FileText size={28} strokeWidth={1.75} />} label="공개된 점수 평균" value="87.5" sub="지난주보다 4.2 상승" />
@@ -303,26 +307,26 @@ export function ComponentGallery() {
 
         <Section title="Badge">
           <Sub>tone</Sub>
-          <div className="gl-row">{TONES.map((t) => <Badge key={t} tone={t}>{t}</Badge>)}</div>
+          <div className="flex flex-wrap items-center gap-3.5">{TONES.map((t) => <Badge key={t} tone={t}>{t}</Badge>)}</div>
           <Sub>large</Sub>
-          <div className="gl-row"><Badge tone="info" large>large</Badge></div>
+          <div className="flex flex-wrap items-center gap-3.5"><Badge tone="info" large>large</Badge></div>
           <Sub>VerdictBadge</Sub>
-          <div className="gl-row">{VERDICTS.map((v) => <VerdictBadge key={v} verdict={v} />)}</div>
+          <div className="flex flex-wrap items-center gap-3.5">{VERDICTS.map((v) => <VerdictBadge key={v} verdict={v} />)}</div>
           <Sub>VerdictBadge chip (목록 왼쪽)</Sub>
-          <div className="gl-row">{VERDICTS.map((v) => <VerdictBadge key={v} verdict={v} chip />)}</div>
+          <div className="flex flex-wrap items-center gap-3.5">{VERDICTS.map((v) => <VerdictBadge key={v} verdict={v} chip />)}</div>
           <Sub>SubmissionStatusBadge</Sub>
-          <div className="gl-row">{STATUSES.map((s) => <SubmissionStatusBadge key={s} status={s} />)}</div>
+          <div className="flex flex-wrap items-center gap-3.5">{STATUSES.map((s) => <SubmissionStatusBadge key={s} status={s} />)}</div>
         </Section>
 
         <Section title="ScoreDisplay / ProgressRing">
-          <div className="gl-row"><ScoreDisplay score={100} released /><ScoreDisplay score={80} released={false} /><ScoreDisplay released={false} submitted={false} /></div>
-          <div className="gl-row"><ProgressRing percent={0} /><ProgressRing percent={40} /><ProgressRing percent={100} /><ProgressRing percent={null} /></div>
+          <div className="flex flex-wrap items-center gap-3.5"><ScoreDisplay score={100} released /><ScoreDisplay score={80} released={false} /><ScoreDisplay released={false} submitted={false} /></div>
+          <div className="flex flex-wrap items-center gap-3.5"><ProgressRing percent={0} /><ProgressRing percent={40} /><ProgressRing percent={100} /><ProgressRing percent={null} /></div>
         </Section>
 
         <Section title="IndexChip / ListRow">
           <Card padding="table">
             <ListRow leading={<IndexChip tone="blue">02</IndexChip>} title="괄호 문자열 검사" subtitle="자료구조 · 문제 #02"
-              trailing={<><span><small className="cl-muted">마감</small><br /><b className="cl-deadline">5월 28일</b></span><ProgressRing percent={40} /></>} onClick={() => toast("info", "열기")} />
+              trailing={<><span><small className="text-sm leading-5 text-fg-secondary">마감</small><br /><b className="font-bold text-danger-fg">5월 28일</b></span><ProgressRing percent={40} /></>} onClick={() => toast("info", "열기")} />
             <ListRow leading={<IndexChip tone="purple">03</IndexChip>} title="최단 경로 찾기" subtitle="알고리즘 · 문제 #03"
               trailing={<ProgressRing percent={0} />} onClick={() => toast("info", "열기")} />
             <ListRow leading={<VerdictBadge verdict="AC" chip />} title="두 수의 합" subtitle="오늘 14:32 · 100점" />
@@ -333,7 +337,7 @@ export function ComponentGallery() {
         <Section title="DataTable" span="full">
           <Sub>기본 (행 클릭 가능)</Sub>
           <Card padding="table"><DataTable<Row> rows={ROWS} rowKey={(r) => r.id} columns={COLUMNS} onRowClick={(r) => toast("info", `${r.title} 열기`)} /></Card>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 16 }}>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
             <div><Sub>loading</Sub><Card padding="table"><DataTable<Row> rows={[]} rowKey={(r) => r.id} columns={COLUMNS} loading /></Card></div>
             <div><Sub>empty</Sub><Card padding="table"><DataTable<Row> rows={[]} rowKey={(r) => r.id} columns={COLUMNS} /></Card></div>
             <div><Sub>error</Sub><Card><DataTable<Row> rows={[]} rowKey={(r) => r.id} columns={COLUMNS} error="목록을 불러오지 못했어요" /></Card></div>
@@ -341,16 +345,16 @@ export function ComponentGallery() {
         </Section>
 
         <Section title="Icon (lucide · stroke 1.75)" span="full">
-          <div className="gl-white">
+          <div className="rounded-2xl bg-surface p-6">
             <Sub>size scale</Sub>
-            <div className="gl-row" style={{ marginBottom: 24 }}>
+            <div className="mb-6 flex flex-wrap items-center gap-3.5">
               {ICON_SIZES.map((s) => (
-                <div key={s} className="gl-icon"><Home size={s} strokeWidth={1.75} />{s}px</div>
+                <div key={s} className="flex flex-col items-center gap-2 text-xs leading-4 text-fg-secondary [&_svg]:text-fg"><Home size={s} strokeWidth={1.75} />{s}px</div>
               ))}
             </div>
             <Sub>24px icons in use</Sub>
-            <div className="gl-icons">
-              {ICONS.map((i) => <div key={i.name} className="gl-icon">{i.node}{i.name}</div>)}
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-4">
+              {ICONS.map((i) => <div key={i.name} className="flex flex-col items-center gap-2 text-xs leading-4 text-fg-secondary [&_svg]:text-fg">{i.node}{i.name}</div>)}
             </div>
           </div>
         </Section>
@@ -360,7 +364,7 @@ export function ComponentGallery() {
         <Group title="Admin & Professor" />
 
         <Section title="Sidebar 메뉴 (교수 · 배지 숫자)">
-          <div className="gl-sidebar-box">
+          <div className="flex h-[1000px] w-[384px] max-w-full flex-col overflow-hidden rounded-2xl [&>aside]:static [&>aside]:h-full [&>aside]:flex-1">
             <Sidebar role="professor" userInitial="박" activePath="/classes" sectionLabel="강의 관리"
               menuItems={[
                 { path: "/classes", label: "수업 관리", icon: <Users size={24} strokeWidth={1.75} /> },
@@ -373,10 +377,10 @@ export function ComponentGallery() {
         </Section>
 
         <Section title="시스템 운영 현황 (관리자)" span={2}>
-          <div className="gl-white">
+          <div className="rounded-2xl bg-surface p-6">
             <PageHeader eyebrow="SYSTEM · OPERATIONS" title="시스템 운영 현황" description="채점 인프라와 작업 큐 상태를 실시간으로 모니터링합니다."
               actions={<><Badge tone="success" dot>실시간 갱신 중</Badge><Button variant="secondary" size="sm" icon={<RotateCcw size={16} strokeWidth={1.75} />}>새로고침</Button></>} />
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 16, marginTop: 8 }}>
+            <div className="mt-2 grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
               <StatCard tone="orange" icon={<History size={28} strokeWidth={1.75} />} label="큐 대기 건수" value={12} sub="5분 전보다 3건 감소" />
               <StatCard tone="blue" icon={<Server size={28} strokeWidth={1.75} />} label="활성 워커" value="6 / 10" sub="4대 확장 대기" />
               <StatCard tone="green" icon={<Timer size={28} strokeWidth={1.75} />} label="평균 채점 시간" value="3.8초" sub="최근 1시간 기준" />
@@ -388,12 +392,18 @@ export function ComponentGallery() {
         </Section>
 
         <Section title="수업 관리 (교수 · 선택된 행)" span={2}>
-          <div className="gl-white">
+          <div className="rounded-2xl bg-surface p-6">
             <PageHeader eyebrow="PROFESSOR · CLASSES" title="수업 관리" description="수업 코드와 학생 참여 상태를 관리하세요."
               actions={<Button icon={<Plus size={20} strokeWidth={1.75} />}>새 수업 만들기</Button>} />
           </div>
           <Card padding="table">
-            <div className="cl-card-head"><div><h2 className="cl-card-title">내 수업</h2><div className="cl-card-sub">수업을 선택하면 참여 코드를 관리할 수 있어요.</div></div><Badge tone="info">3개</Badge></div>
+            <div className="mb-[22px] flex items-start justify-between gap-4 px-[30px] pt-[30px]">
+              <div>
+                <h2 className="m-0 text-[22px] leading-[30px] font-medium">내 수업</h2>
+                <div className="mt-1.5 text-sm leading-5 text-fg-secondary">수업을 선택하면 참여 코드를 관리할 수 있어요.</div>
+              </div>
+              <Badge tone="info">3개</Badge>
+            </div>
             <DataTable<{ id: number; name: string; term: string; n: string; code: string; open: boolean }>
               rowKey={(r) => r.id} selectedKey={1} onRowClick={() => {}}
               rows={[
@@ -405,7 +415,7 @@ export function ComponentGallery() {
                 { key: "name", header: "수업", render: (r) => <b>{r.name}</b> },
                 { key: "term", header: "학기" },
                 { key: "n", header: "수강생", render: (r) => <b>{r.n}</b> },
-                { key: "code", header: "수업 코드", render: (r) => <span style={{ fontFamily: "var(--font-mono)" }}>{r.code}</span> },
+                { key: "code", header: "수업 코드", render: (r) => <span className="font-mono">{r.code}</span> },
                 { key: "open", header: "신규 참여", render: (r) => <Badge tone={r.open ? "success" : "neutral"}>{r.open ? "열림" : "닫힘"}</Badge> },
               ]} />
           </Card>
@@ -434,13 +444,13 @@ export function ComponentGallery() {
         </Section>
 
         <Section title="SampleIO / MetaStats / inline code">
-          <p style={{ margin: 0 }}>여는 괄호 <code className="cl-icode">(</code> 가 나오면 반드시 대응하는 닫는 괄호 <code className="cl-icode">)</code> 가 있어야 해요.</p>
+          <p className="m-0">여는 괄호 <code className={icode}>(</code> 가 나오면 반드시 대응하는 닫는 괄호 <code className={icode}>)</code> 가 있어야 해요.</p>
           <SampleIO input="(())()" output="YES" />
           <MetaStats items={[{ label: "시간 제한", value: "1초" }, { label: "메모리 제한", value: "128 MB" }, { label: "배점", value: "100점" }]} />
         </Section>
 
         <Section title="TagChip (읽기 전용)">
-          <div className="gl-row"><TagChip tone="deny">import:re</TagChip><TagChip tone="deny">call:eval</TagChip><TagChip tone="allow">call:sorted</TagChip><TagChip>syntax:For</TagChip></div>
+          <div className="flex flex-wrap items-center gap-3.5"><TagChip tone="deny">import:re</TagChip><TagChip tone="deny">call:eval</TagChip><TagChip tone="allow">call:sorted</TagChip><TagChip>syntax:For</TagChip></div>
         </Section>
 
         <Section title="TestcaseGroupCard (비공개 입출력 미노출)" span={2}>

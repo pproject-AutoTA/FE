@@ -44,7 +44,7 @@ export function Showcase() {
       <PageHeader eyebrow="STUDENT · PROBLEMS" title="컴포넌트 쇼케이스" description="모든 공통 컴포넌트를 한 화면에서 확인해요."
         actions={<Button onClick={() => toast("success", "저장했어요")}>토스트 확인</Button>} />
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16 }}>
+      <div className="grid grid-cols-[repeat(4,1fr)] gap-4">
         <StatCard icon={<BookOpen size={22} strokeWidth={1.75} />} label="진행 중 과제" value={3} sub="이번 주 마감 2개" />
         <StatCard icon={<CheckCircle2 size={22} strokeWidth={1.75} />} label="완료한 문제" value={12} sub="전체 18개 중" />
         <StatCard icon={<ClipboardList size={22} strokeWidth={1.75} />} label="공개된 점수 평균" value="87.5" />
@@ -67,16 +67,16 @@ export function Showcase() {
         />
       </Card>
 
-      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+      <div className="flex items-center gap-2">
         {verdicts.map((v) => <VerdictBadge key={v} verdict={v} />)}
         <ProgressRing percent={40} /><ProgressRing percent={null} />
       </div>
       <Stepper steps={["대기", "채점 중", "결과 확인"]} current={1} />
       <Banner type="warning" title="1번 줄 · import:re">이번 과제의 금지 항목이에요. 점수는 바뀌지 않아요.</Banner>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+      <div className="grid grid-cols-[1fr_1fr] gap-4">
         <CodeEditor value={code} onChange={setCode} flagLines={[1]} minLines={8} />
-        <div style={{ display: "grid", gap: 16, alignContent: "start" }}>
+        <div className="grid content-start gap-4">
           <FlagCard flags={[{ tag: "import:re", line: 1, code: "import re" }]} />
           <CodeBlock code={"def solve(arr):\n    return sorted(arr)"} startLine={11} flagLines={[12]} />
         </div>
@@ -88,9 +88,9 @@ export function Showcase() {
         { id: 3, isPublic: false, verdict: "TLE", timeSec: 1.0 },
       ] }} />
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+      <div className="grid grid-cols-[1fr_1fr] gap-4">
         <Card title="입력 컴포넌트">
-          <div style={{ display: "grid", gap: 14 }}>
+          <div className="grid gap-3.5">
             <FormField label="제목" placeholder="문제 제목" />
             <FormField label="이메일" error="올바른 이메일 형식이 아니에요" defaultValue="abc" />
             <DateTimePicker label="제출 마감" value={due} onChange={setDue} />
@@ -101,7 +101,7 @@ export function Showcase() {
             <Button variant="secondary" onClick={() => setOpen(true)}>확인 모달 열기</Button>
           </div>
         </Card>
-        <div style={{ display: "grid", gap: 16, alignContent: "start" }}>
+        <div className="grid content-start gap-4">
           <ScoreBreakdown groupScore={100} latePenalty={0} adjustment={adj} onAdjustmentChange={setAdj}
             reason={reason} onReasonChange={setReason} reasonError={adj !== 0 && !reason ? "조정 사유를 입력해주세요" : undefined} />
           <SubmissionHistoryList items={[{ no: 3, passed: 8, total: 10, isFinal: true }, { no: 2, passed: 6, total: 10, isFinal: false }]} />
