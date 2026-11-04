@@ -6,14 +6,15 @@ AutoTA FE 레포지토리입니다.
 
 ## 기술 스택
 
-| 구분   | 사용                                                             |
-| ------ | ---------------------------------------------------------------- |
-| 빌드   | Vite 5                                                           |
-| UI     | React 18 + TypeScript 5                                          |
-| 라우팅 | react-router-dom 6                                               |
-| 아이콘 | lucide-react (stroke 1.75)                                       |
-| 폰트   | Noto Sans KR (400 / 500 / 700), JetBrains Mono                   |
-| 스타일 | 전역 CSS (`tokens.css` 변수 + `components.css`의 `.cl-*` 클래스) |
+| 구분               | 사용                                                                       |
+| ------------------ | -------------------------------------------------------------------------- |
+| 빌드               | Vite 5                                                                     |
+| UI                 | React 18 + TypeScript 5                                                    |
+| 라우팅             | react-router-dom 6                                                         |
+| 아이콘             | lucide-react (stroke 1.75)                                                 |
+| 폰트               | Noto Sans KR (400 / 500 / 700), JetBrains Mono                             |
+| 스타일             | 전역 CSS (`tokens.css` 변수 + `components.css`의 `.cl-*` 클래스)           |
+| 스타일 (전환 예정) | Tailwind CSS 4 (`@tailwindcss/vite`) 설치 완료, 컴포넌트는 순차적으로 전환 |
 
 ## 시작하기
 
@@ -37,6 +38,7 @@ npm run dev
 src/
 ├─ main.tsx                  # 진입점, 라우터, ToastProvider
 ├─ styles/
+│  ├─ tailwind.css           # Tailwind 불러오기 (초기화 스타일은 제외)
 │  ├─ tokens.css             # 색, 글꼴, 간격, 둥글기, 그림자 변수
 │  ├─ components.css         # 공통 컴포넌트 스타일 (.cl-*)
 │  └─ gallery.css            # /components 화면 전용 (.gl-*)
@@ -123,3 +125,4 @@ import { Button, Card, ScoreDisplay } from "../components";
 - CSS import 오류가 나면 `src/vite-env.d.ts` 에 `/// <reference types="vite/client" />` 가 있는지 확인하세요.
 - 폴더 이름은 `components` (복수형)입니다.
 - 새 컴포넌트를 만들면 해당 폴더의 `index.ts`에 한 줄 추가하고, `/components` 화면에도 예시를 넣어 주세요.
+- Tailwind는 초기화 스타일(preflight)을 뺀 상태로 불러옵니다. 기존 `.cl-*` 스타일은 Tailwind 클래스보다 우선하므로, 컴포넌트를 전환할 때 해당 요소에서 `cl-*` 클래스를 빼면서 진행하세요.
