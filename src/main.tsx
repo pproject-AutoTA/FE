@@ -1,10 +1,8 @@
-import "./styles/tailwind.css";
 import "@fontsource/noto-sans-kr/400.css";
 import "@fontsource/noto-sans-kr/500.css";
 import "@fontsource/noto-sans-kr/700.css";
 import "@fontsource/jetbrains-mono/400.css";
-import "./styles/tokens.css";
-import "./styles/components.css";
+import "./styles/tailwind.css";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ToastProvider } from "./components";
@@ -22,5 +20,5 @@ createRoot(document.getElementById("root")!).render(
         <Route path="*" element={<Navigate to="/components" replace />} />
       </Routes>
     </ToastProvider>
-  </BrowserRouter>,
+  </BrowserRouter>
 );
