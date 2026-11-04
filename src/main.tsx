@@ -1,3 +1,4 @@
+import "./styles/tailwind.css";
 import "@fontsource/noto-sans-kr/400.css";
 import "@fontsource/noto-sans-kr/500.css";
 import "@fontsource/noto-sans-kr/700.css";
@@ -21,5 +22,5 @@ createRoot(document.getElementById("root")!).render(
         <Route path="*" element={<Navigate to="/components" replace />} />
       </Routes>
     </ToastProvider>
-  </BrowserRouter>
+  </BrowserRouter>,
 );
