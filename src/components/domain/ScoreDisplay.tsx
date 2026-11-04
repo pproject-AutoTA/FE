@@ -4,12 +4,14 @@
  * submitted=false(미제출)이면 "—" 를 보여준다. */
 export interface ScoreDisplayProps { score?: number | null; max?: number; released: boolean; submitted?: boolean }
 export function ScoreDisplay({ score, max = 100, released, submitted = true }: ScoreDisplayProps) {
-  if (!submitted) return <span className="cl-score-none">—</span>;
-  if (!released || score === null || score === undefined) return <span className="cl-score-hidden">공개 전</span>;
+  if (!submitted) return <span className="text-base leading-6 text-fg-tertiary">—</span>;
+  if (!released || score === null || score === undefined) {
+    return <span className="text-base leading-6 font-bold text-flag-fg">공개 전</span>;
+  }
   return (
-    <span className="cl-score-inline">
-      <strong>{score} / {max}</strong>
-      <small>공개</small>
+    <span className="inline-flex items-baseline gap-2 text-fg-body">
+      <strong className="text-base leading-6 font-bold">{score} / {max}</strong>
+      <small className="text-sm leading-5 text-fg-secondary">공개</small>
     </span>
   );
 }

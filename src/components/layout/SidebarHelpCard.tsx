@@ -14,11 +14,11 @@ export function SidebarHelpCard({
   onClick,
 }: SidebarHelpCardProps) {
   return (
-    <div className="cl-sbhelp">
-      <span className="cl-sbhelp-icon"><BookOpen size={22} strokeWidth={1.75} aria-hidden /></span>
-      <h4>{title}</h4>
-      <p>{description}</p>
-      <button type="button" onClick={onClick}>
+    <div className="mx-0.5 mb-[22px] rounded-2xl bg-[rgba(255,255,255,.07)] px-[22px] pt-[22px] pb-6">
+      <span className="mb-6 grid size-[46px] place-items-center rounded-lg bg-[rgba(255,255,255,.14)]"><BookOpen size={22} strokeWidth={1.75} aria-hidden /></span>
+      <h4 className="m-0 mb-2 text-xl leading-7 font-bold">{title}</h4>
+      <p className="m-0 mb-4 text-[15px] leading-6 text-[#C7D3EA]">{description}</p>
+      <button type="button" className="inline-flex cursor-pointer items-center gap-2 border-0 bg-transparent p-0 text-base leading-[22px] font-bold text-white" onClick={onClick}>
         {linkLabel}
         <ArrowRight size={18} strokeWidth={1.75} aria-hidden />
       </button>

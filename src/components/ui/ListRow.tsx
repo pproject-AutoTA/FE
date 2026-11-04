@@ -9,16 +9,19 @@ export interface ListRowProps {
   trailing?: ReactNode;
   onClick?: () => void;
 }
+
+const row = "flex items-center gap-5 border-b border-border bg-surface px-[30px] py-[22px] last:border-b-0";
+
 export function ListRow({ leading, title, subtitle, trailing, onClick }: ListRowProps) {
   const body = (
     <>
       {leading}
-      <div className="cl-listrow-main">
-        <strong>{title}</strong>
-        {subtitle && <span>{subtitle}</span>}
+      <div className="min-w-0 flex-1">
+        <strong className="block text-[17px] leading-6 font-bold text-fg">{title}</strong>
+        {subtitle && <span className="block text-sm leading-5 text-fg-secondary">{subtitle}</span>}
       </div>
       {(trailing || onClick) && (
-        <div className="cl-listrow-trail">
+        <div className="flex items-center gap-6">
           {trailing}
           {onClick && <ChevronRight size={22} strokeWidth={1.75} aria-hidden />}
         </div>
@@ -26,8 +29,8 @@ export function ListRow({ leading, title, subtitle, trailing, onClick }: ListRow
     </>
   );
   return onClick ? (
-    <div className="cl-listrow is-click" role="button" tabIndex={0} onClick={onClick} onKeyDown={(e) => e.key === "Enter" && onClick()}>{body}</div>
+    <div className={`${row} cursor-pointer hover:bg-[#F9FBFF]`} role="button" tabIndex={0} onClick={onClick} onKeyDown={(e) => e.key === "Enter" && onClick()}>{body}</div>
   ) : (
-    <div className="cl-listrow">{body}</div>
+    <div className={row}>{body}</div>
   );
 }

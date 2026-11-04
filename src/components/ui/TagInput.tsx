@@ -10,6 +10,9 @@ export interface TagInputProps {
   placeholder?: string;
 }
 export const TAG_PATTERN = /^(import|call|syntax):\S+$/;
+
+const chip = "box-border inline-flex h-9 items-center rounded-md px-3.5 py-0 font-mono text-sm leading-none text-fg-body";
+
 export function TagInput({ tags, onChange, validate = (t) => TAG_PATTERN.test(t), placeholder = "call:sorted" }: TagInputProps) {
   const [draft, setDraft] = useState("");
   const [err, setErr] = useState<string>();
@@ -22,12 +25,12 @@ export function TagInput({ tags, onChange, validate = (t) => TAG_PATTERN.test(t)
   };
   return (
     <div>
-      <div className="cl-tags">
+      <div className="flex flex-wrap gap-2.5">
         {tags.map((t) => (
-          <span key={t} className="cl-chip">
+          <span key={t} className={`${chip} gap-2 bg-neutral-bg`}>
             {t}
             <button type="button" aria-label={`${t} 삭제`} onClick={() => onChange(tags.filter((x) => x !== t))}
-              style={{ border: 0, background: "none", padding: 0, display: "inline-flex", cursor: "pointer" }}>
+              className="inline-flex cursor-pointer border-0 bg-transparent p-0">
               <X size={12} strokeWidth={1.75} />
             </button>
           </span>
@@ -36,7 +39,7 @@ export function TagInput({ tags, onChange, validate = (t) => TAG_PATTERN.test(t)
           value={draft} placeholder={`+ ${placeholder}`} aria-label="태그 추가"
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); add(); } }}
-          className="cl-chip cl-chip--add" style={{ width: 150 }}
+          className={`${chip} w-[150px] gap-2 border border-dashed border-border-strong bg-surface`}
         />
       </div>
       {err && <ErrorMessage>{err}</ErrorMessage>}

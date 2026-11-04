@@ -12,11 +12,26 @@ export interface BadgeProps {
   dot?: boolean;
   children: ReactNode;
 }
+
+const TONE: Record<Tone, string> = {
+  success: "bg-success-bg text-success-fg",
+  danger: "bg-danger-bg text-danger-fg",
+  flag: "bg-flag-bg text-flag-fg",
+  amber: "bg-amber-bg text-amber-fg",
+  neutral: "bg-neutral-bg text-neutral-fg",
+  info: "bg-info-bg text-info-fg",
+  purple: "bg-purple-bg text-purple-fg",
+};
+
 export function Badge({ tone = "neutral", large, square, icon, dot, children }: BadgeProps) {
-  const cls = `cl-badge cl-badge--${tone}${large ? " cl-badge--lg" : ""}${square ? " cl-badge--square" : ""}`;
+  const size = square
+    ? "h-11 min-w-[60px] rounded-[14px] px-3.5 text-[15px]"
+    : large
+      ? "h-10 rounded-full px-[18px] text-[15px]"
+      : "h-8 rounded-full px-3.5 text-sm";
   return (
-    <span className={cls}>
-      {dot && <i className="cl-badge-dot" aria-hidden />}
+    <span className={`inline-flex items-center justify-center gap-1.5 leading-none font-bold whitespace-nowrap ${size} ${TONE[tone]}`}>
+      {dot && <i className="size-2 flex-none rounded-full bg-current" aria-hidden />}
       {icon}
       {children}
     </span>

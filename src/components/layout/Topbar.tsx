@@ -17,22 +17,22 @@ export function Topbar({
   user, hasUnread, searchPlaceholder = "문제, 학생 또는 제출 ID 검색", onSearch, onBellClick, bellOpen, popover,
 }: TopbarProps) {
   return (
-    <header className="cl-topbar">
-      <label className="cl-search">
+    <header className="relative box-border flex h-[105px] items-center justify-between border-b border-border bg-surface pr-12 pl-[54px]">
+      <label className="flex flex-1 items-center gap-3.5 text-lg leading-6 text-fg-tertiary">
         <Search size={24} strokeWidth={1.75} aria-hidden />
-        <input aria-label="검색" placeholder={searchPlaceholder} onChange={(e) => onSearch?.(e.target.value)} />
+        <input className="w-[460px] max-w-full border-0 bg-transparent text-fg outline-none [font:inherit] placeholder:text-fg-tertiary" aria-label="검색" placeholder={searchPlaceholder} onChange={(e) => onSearch?.(e.target.value)} />
       </label>
-      <div className="cl-topbar-right">
-        <button type="button" className="cl-bell" aria-label={hasUnread ? "읽지 않은 알림 있음" : "알림"} aria-expanded={!!bellOpen} onClick={onBellClick}>
+      <div className="flex items-center gap-[26px]">
+        <button type="button" className="relative inline-flex cursor-pointer rounded-full border-0 bg-transparent p-1.5 text-fg-body hover:bg-neutral-bg" aria-label={hasUnread ? "읽지 않은 알림 있음" : "알림"} aria-expanded={!!bellOpen} onClick={onBellClick}>
           <Bell size={24} strokeWidth={1.75} />
-          {hasUnread && <i />}
+          {hasUnread && <i className="absolute top-1 right-[5px] box-border size-2.5 rounded-full border-2 border-white bg-[#EF4444]" />}
         </button>
-        <div className="cl-user">
-          <strong>{user.name}</strong>
-          <span>{user.sub}</span>
+        <div className="border-l border-border pl-[26px]">
+          <strong className="block text-lg leading-6 font-bold">{user.name}</strong>
+          <span className="block text-sm leading-5 text-fg-secondary">{user.sub}</span>
         </div>
       </div>
-      {bellOpen && popover && <div className="cl-popover">{popover}</div>}
+      {bellOpen && popover && <div className="absolute top-[92px] right-12 z-40">{popover}</div>}
     </header>
   );
 }

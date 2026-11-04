@@ -1,5 +1,6 @@
 import { useId, type InputHTMLAttributes, type ReactNode, type TextareaHTMLAttributes } from "react";
 import { ErrorMessage } from "./ErrorMessage";
+import { fieldHelp, fieldLabel, inputWrap, wrapControl } from "./classes";
 
 /* ============ FormField ============ */
 interface FieldBase {
@@ -15,20 +16,24 @@ export function FormField({ label, help, error, multiline, icon, action, ...rest
   FieldBase & { multiline?: boolean } & InputHTMLAttributes<HTMLInputElement> & TextareaHTMLAttributes<HTMLTextAreaElement>) {
   const id = useId();
   const aria = { id, "aria-invalid": !!error, "aria-describedby": `${id}-d` };
+  const textarea = [
+    "box-border min-h-[120px] w-full resize-y rounded-[14px] border bg-surface px-[18px] py-4 text-base leading-[26px] text-fg focus:shadow-ring focus:outline-none",
+    error ? "border-danger-fg" : "border-border focus:border-blue-600",
+  ].join(" ");
   return (
-    <div className="cl-field">
-      <label className="cl-label" htmlFor={id}>{label}</label>
+    <div className="flex flex-col">
+      <label className={fieldLabel} htmlFor={id}>{label}</label>
       {multiline ? (
-        <textarea {...(rest as any)} {...aria} className={`cl-input${error ? " is-error" : ""}`} />
+        <textarea {...(rest as any)} {...aria} className={textarea} />
       ) : (
-        <div className={`cl-inputwrap${error ? " is-error" : ""}${action ? " cl-inputwrap--action" : ""}`}>
+        <div className={inputWrap(!!error, !!action)}>
           {icon}
-          <input {...(rest as any)} {...aria} />
+          <input {...(rest as any)} {...aria} className={wrapControl} />
           {action}
         </div>
       )}
       <div id={`${id}-d`}>
-        {error ? <ErrorMessage>{error}</ErrorMessage> : help && <div className="cl-help">{help}</div>}
+        {error ? <ErrorMessage>{error}</ErrorMessage> : help && <div className={fieldHelp}>{help}</div>}
       </div>
     </div>
   );

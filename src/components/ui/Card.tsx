@@ -13,15 +13,27 @@ export interface CardProps {
   children: ReactNode;
 }
 export function Card({ title, subtitle, action, icon, padding = "default", highlight, children }: CardProps) {
-  const cls = ["cl-card", padding === "table" && "cl-card--table", highlight && "cl-card--highlight"].filter(Boolean).join(" ");
+  const table = padding === "table";
+  const box = [
+    "rounded-2xl border shadow-sm",
+    highlight ? "border-info-border bg-blue-25" : "border-border bg-surface",
+    table ? "overflow-hidden p-0" : "p-[30px]",
+  ].join(" ");
+  const head = [
+    "mb-[22px] flex gap-4",
+    icon ? "items-center justify-start" : "items-start justify-between",
+    table ? "px-[30px] pt-[30px]" : "",
+  ].join(" ");
   return (
-    <section className={cls}>
+    <section className={box}>
       {(title || action) && (
-        <div className={`cl-card-head${icon ? " cl-card-head--icon" : ""}`}>
-          {icon && <span className="cl-card-icon">{icon}</span>}
-          <div>
-            {title && <h2 className="cl-card-title">{title}</h2>}
-            {subtitle && <div className="cl-card-sub">{subtitle}</div>}
+        <div className={head}>
+          {icon && (
+            <span className="grid size-14 flex-none place-items-center rounded-xl bg-blue-50 text-blue-600">{icon}</span>
+          )}
+          <div className={icon ? "flex-1" : undefined}>
+            {title && <h2 className="m-0 text-[22px] leading-[30px] font-medium">{title}</h2>}
+            {subtitle && <div className="mt-1.5 text-sm leading-5 text-fg-secondary">{subtitle}</div>}
           </div>
           {action}
         </div>

@@ -22,25 +22,25 @@ export interface SidebarProps {
 }
 export function Sidebar({ role, userInitial, menuItems, activePath, onNavigate, onLogout, sectionLabel, helpCard }: SidebarProps) {
   return (
-    <aside className="cl-sidebar">
+    <aside className="sticky top-0 box-border flex h-screen flex-col bg-navy-900 px-[22px] pt-[42px] text-white">
       <Logo />
-      <div className="cl-role">
-        <span className="cl-avatar" aria-hidden>{userInitial}</span>
-        <div className="cl-role-text">
-          <small>로그인 역할</small>
-          <strong>{ROLE_LABEL[role]}</strong>
+      <div className="mt-10 flex items-center gap-4 rounded-xl border border-[rgba(255,255,255,.08)] bg-[rgba(255,255,255,.07)] px-5 py-[18px]">
+        <span className="grid size-[52px] flex-none place-items-center rounded-full bg-[#E9EDFF] text-[22px] leading-none font-bold text-navy-900" aria-hidden>{userInitial}</span>
+        <div>
+          <small className="block text-sm leading-[18px] text-[#B9C6E2]">로그인 역할</small>
+          <strong className="block text-[21px] leading-7 font-bold">{ROLE_LABEL[role]}</strong>
         </div>
-        <ShieldCheck className="cl-role-icon" size={24} strokeWidth={1.75} aria-hidden />
+        <ShieldCheck className="ml-auto flex-none" size={24} strokeWidth={1.75} aria-hidden />
       </div>
-      {sectionLabel && <div className="cl-nav-label">{sectionLabel}</div>}
-      <nav className="cl-navlist" aria-label="주 메뉴" style={sectionLabel ? undefined : { marginTop: 36 }}>
+      {sectionLabel && <div className="mx-4 mt-9 mb-3 text-sm leading-[18px] font-medium text-[#8290B4]">{sectionLabel}</div>}
+      <nav className={`-mx-0.5 flex flex-col gap-1.5${sectionLabel ? "" : " mt-9"}`} aria-label="주 메뉴">
         {menuItems.map((m) => (
           <NavItem key={m.path} icon={m.icon} label={m.label} badge={m.badge} active={activePath === m.path} onClick={() => onNavigate(m.path)} />
         ))}
       </nav>
-      <div style={{ flex: 1 }} />
+      <div className="flex-1" />
       {helpCard}
-      <div className="cl-sidebar-foot">
+      <div className="-mx-[22px] border-t border-[rgba(255,255,255,.1)] px-[22px]">
         <NavItem variant="foot" icon={<LogOut size={24} strokeWidth={1.75} />} label="로그아웃" onClick={onLogout} />
       </div>
     </aside>
