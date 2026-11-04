@@ -1,4 +1,5 @@
 export * from "./AppShell";
+export * from "./AuthLayout";
 export * from "./Logo";
 export * from "./NavItem";
 export * from "./PageHeader";
