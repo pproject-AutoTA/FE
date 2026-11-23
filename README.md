@@ -38,23 +38,23 @@ npm run build   # 배포용 빌드 (타입 검사 포함)
 
 ### 화면 주소
 
-| 주소                           | 화면                                                         |
-| ------------------------------ | ------------------------------------------------------------ |
-| `/login`                       | 학생·교수 로그인                                             |
-| `/admin/login`                 | 시스템 관리자 로그인                                         |
-| `/forgot-password`             | 비밀번호 찾기                                                |
-| `/contact-admin`               | 관리자에게 문의                                              |
-| `/student`                     | 학생 홈                                                      |
-| `/student/join`                | 수업 참여                                                    |
-| `/student/problems`            | 문제 목록                                                    |
-| `/student/submit`              | 코드 제출 (`?problem=번호`로 문제 선택)                      |
-| `/student/results`             | 제출 및 채점 결과 목록                                       |
-| `/student/results/:submissionId` | 채점 결과 상세                                             |
-| `/student/notices`             | 전체 공지 (`?notice=번호`로 공지 선택, 알림 클릭 시 이 주소) |
-| `/student/guide`               | 학생 이용 가이드 (사이드바 도움말 카드에서 이동)             |
-| `/professor`, `/admin`         | 교수·시스템 관리자 화면 (준비 중, 임시 화면)                 |
-| `/components`                  | 컴포넌트 갤러리                                              |
-| `/showcase`                    | 서비스 화면 예시 (정식 화면으로 교체 예정)                   |
+| 주소                             | 화면                                                         |
+| -------------------------------- | ------------------------------------------------------------ |
+| `/login`                         | 학생·교수 로그인                                             |
+| `/admin/login`                   | 시스템 관리자 로그인                                         |
+| `/forgot-password`               | 비밀번호 찾기                                                |
+| `/contact-admin`                 | 관리자에게 문의                                              |
+| `/student`                       | 학생 홈                                                      |
+| `/student/join`                  | 수업 참여                                                    |
+| `/student/problems`              | 문제 목록                                                    |
+| `/student/submit`                | 코드 제출 (`?problem=번호`로 문제 선택)                      |
+| `/student/results`               | 제출 및 채점 결과 목록                                       |
+| `/student/results/:submissionId` | 채점 결과 상세                                               |
+| `/student/notices`               | 전체 공지 (`?notice=번호`로 공지 선택, 알림 클릭 시 이 주소) |
+| `/student/guide`                 | 학생 이용 가이드 (사이드바 도움말 카드에서 이동)             |
+| `/professor`, `/admin`           | 교수·시스템 관리자 화면 (준비 중, 임시 화면)                 |
+| `/components`                    | 컴포넌트 갤러리                                              |
+| `/showcase`                      | 서비스 화면 예시 (정식 화면으로 교체 예정)                   |
 
 로그인은 아직 서버와 연결되어 있지 않습니다. 로그인 화면에서 학생을 선택하고 로그인하면 `/student`로 이동합니다.
 
@@ -169,8 +169,10 @@ API로 바꿀 자리에는 `// TODO: API` 주석을 남겨 두었습니다. 서�
 
 ## 브랜치와 작업 방식
 
-- 본인 포크(`origin`)의 기본 브랜치(`이름/main`)에서 기능별 `이름/작업이름` 브랜치를 만들어 작업합니다. 원본 레포는 `upstream`으로 등록해 둡니다. 예) `김채은/auth`, `김채은/student`
-- PR은 `이름/main` ← `이름/작업이름` 으로 올리고, 본문에 `관련 이슈: #번호`와 화면 캡처를 넣습니다. 화면 캡처는 레포에 파일로 두지 않고 PR 본문에만 첨부합니다.
+- 원본 레포(`pproject-AutoTA/FE`)를 본인 계정으로 포크해서 작업합니다. 포크는 `origin`, 원본은 `upstream`으로 등록합니다.
+- 기능별로 `이름/작업이름` 브랜치를 만들어 작업합니다. 예) `김채은/component`, `김채은/auth`, `김채은/student`
+- PR은 본인 포크의 작업 브랜치에서 원본 레포의 `main`으로 올리고, 본문에 `관련 이슈: #번호`와 화면 캡처를 넣습니다. 화면 캡처는 레포에 파일로 두지 않고 PR 본문에만 첨부합니다.
+- 작업 전에는 `git fetch upstream`으로 원본 `main`의 변경을 확인하고, 필요하면 작업 브랜치를 그 위로 옮깁니다.
 - 커밋 메시지는 `feat:`, `fix:`, `refactor:`, `chore:`, `docs:`, `style:` 접두사를 씁니다.
 - 공통 컴포넌트(`src/components`) 변경은 화면 PR에 섞지 않고 별도 PR로 올립니다.
 - README 수정은 PR 없이 `main`에서 직접 합니다.
