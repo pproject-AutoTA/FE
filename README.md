@@ -2,7 +2,7 @@
 
 AutoTA FE 레포지토리입니다.
 
-AutoTA는 프로그래밍 과제를 자동으로 채점하는 서비스입니다. 화면을 만들기 전에 공통 컴포넌트를 먼저 정리했고, 그 위에 로그인 계열 화면과 학생 화면을 만들었습니다. 교수·관리자 화면은 준비 중입니다.
+AutoTA는 프로그래밍 과제를 자동으로 채점하는 서비스입니다. 화면을 만들기 전에 공통 컴포넌트를 먼저 정리했고, 그 위에 로그인 계열 화면, 학생 화면, 교수 화면을 만들었습니다. 시스템 관리자 화면은 준비 중입니다.
 
 ## 프로젝트 문서
 
@@ -38,25 +38,34 @@ npm run build   # 배포용 빌드 (타입 검사 포함)
 
 ### 화면 주소
 
-| 주소                             | 화면                                                         |
-| -------------------------------- | ------------------------------------------------------------ |
-| `/login`                         | 학생·교수 로그인                                             |
-| `/admin/login`                   | 시스템 관리자 로그인                                         |
-| `/forgot-password`               | 비밀번호 찾기                                                |
-| `/contact-admin`                 | 관리자에게 문의                                              |
-| `/student`                       | 학생 홈                                                      |
-| `/student/join`                  | 수업 참여                                                    |
-| `/student/problems`              | 문제 목록                                                    |
-| `/student/submit`                | 코드 제출 (`?problem=번호`로 문제 선택)                      |
-| `/student/results`               | 제출 및 채점 결과 목록                                       |
-| `/student/results/:submissionId` | 채점 결과 상세                                               |
-| `/student/notices`               | 전체 공지 (`?notice=번호`로 공지 선택, 알림 클릭 시 이 주소) |
-| `/student/guide`                 | 학생 이용 가이드 (사이드바 도움말 카드에서 이동)             |
-| `/professor`, `/admin`           | 교수·시스템 관리자 화면 (준비 중, 임시 화면)                 |
-| `/components`                    | 컴포넌트 갤러리                                              |
-| `/showcase`                      | 서비스 화면 예시 (정식 화면으로 교체 예정)                   |
+| 주소                           | 화면                                                         |
+| ------------------------------ | ------------------------------------------------------------ |
+| `/login`                       | 학생·교수 로그인                                             |
+| `/admin/login`                 | 시스템 관리자 로그인                                         |
+| `/forgot-password`             | 비밀번호 찾기                                                |
+| `/contact-admin`               | 관리자에게 문의                                              |
+| `/student`                     | 학생 홈                                                      |
+| `/student/join`                | 수업 참여                                                    |
+| `/student/problems`            | 문제 목록                                                    |
+| `/student/submit`              | 코드 제출 (`?problem=번호`로 문제 선택)                      |
+| `/student/results`             | 제출 및 채점 결과 목록                                       |
+| `/student/results/:submissionId` | 채점 결과 상세                                             |
+| `/student/notices`             | 전체 공지 (`?notice=번호`로 공지 선택, 알림 클릭 시 이 주소) |
+| `/student/guide`               | 학생 이용 가이드 (사이드바 도움말 카드에서 이동)             |
+| `/professor`                   | 교수 홈 (교수 화면 PR 머지 후 임시 화면을 교체 예정)         |
+| `/professor/classes`           | 수업 관리: 수업별 과제 목록, 과제 상세, 학생 제출 현황       |
+| `/professor/problems`          | 과제 관리: 등록한 과제 목록                                  |
+| `/professor/problems/new`      | 과제 등록 (3단계)                                            |
+| `/professor/problems/:problemKey/edit` | 과제 수정 (3단계)                                    |
+| `/professor/review`            | 채점 검토                                                    |
+| `/professor/scores`            | 점수 공개 관리                                               |
+| `/admin`                       | 시스템 관리자 화면 (준비 중, 임시 화면)                      |
+| `/components`                  | 컴포넌트 갤러리                                              |
+| `/showcase`                    | 서비스 화면 예시 (정식 화면으로 교체 예정)                   |
 
 로그인은 아직 서버와 연결되어 있지 않습니다. 로그인 화면에서 학생을 선택하고 로그인하면 `/student`로 이동합니다.
+
+> 교수 화면은 별도 PR로 올라와 있고, 작업 브랜치에서는 `/`에서 교수 홈이 열리고 `/classes`, `/problems`, `/review`, `/scores` 같은 주소를 씁니다. 위 표의 `/professor/...` 주소는 팀 코드에 통합할 때 정할 예정인 주소입니다. 통합할 때는 기존 로그인·학생 라우트를 유지하고 `/professor`의 임시 화면을 교수 홈으로 교체합니다. 로그인 이후 교수 화면으로 이동하는 흐름은 후속 작업입니다.
 
 ## 폴더 구조
 
@@ -69,6 +78,7 @@ src/
 ├─ pages/
 │  ├─ ComponentGallery.tsx   # 컴포넌트 갤러리
 │  ├─ auth/                  # 로그인 계열: Login, AdminLogin, ForgotPassword, ContactAdmin
+│  ├─ professor/             # 교수 화면 (PR 리뷰 중): ProfessorHome, ProfessorSidebar, 수업 관리, 과제 관리·등록·수정, 채점 검토, 점수 공개
 │  └─ student/               # 학생 화면
 │     ├─ StudentLayout.tsx   # 학생 공통 틀 (사이드바, 상단바, 알림 패널)
 │     ├─ StudentHome / StudentJoin / StudentProblems / StudentSubmit
@@ -86,7 +96,7 @@ src/
 import { Button, Card, ScoreDisplay } from "../components";
 ```
 
-화면 폴더(`pages/auth`, `pages/student`, ...)도 `index.ts`로 화면을 다시 내보내고, 라우트는 `main.tsx`에 등록합니다. 학생 화면은 `/student` 아래에 `StudentLayout`을 두고 나머지 화면을 하위 라우트로 연결했습니다.
+화면 폴더(`pages/auth`, `pages/student`, `pages/professor`, ...)도 `index.ts`로 화면을 다시 내보내고, 라우트는 `main.tsx`에 등록합니다. 학생 화면은 `/student` 아래에 `StudentLayout`을 두고 나머지 화면을 하위 라우트로 연결했습니다.
 
 ## 디자인 기준
 
@@ -142,6 +152,16 @@ import { Button, Card, ScoreDisplay } from "../components";
 - **공지 목록**: 한 페이지에 4개씩 보여주며 `Pagination`으로 이동합니다. 주소의 `?notice=` 값이 다른 페이지의 공지를 가리키면 그 공지가 있는 페이지로 자동 이동합니다.
 - **이용 가이드**: 사이드바 도움말 카드에서 `/student/guide`로 이동합니다. 관리자 문의는 `/contact-admin`으로 연결되고 돌아올 위치를 함께 넘깁니다.
 
+## 교수 화면 동작
+
+교수 화면은 박은아가 구현했고 PR 리뷰 후 머지할 예정입니다.
+
+- **교수 홈과 사이드바**: 교수 홈에서 수업 관리, 과제 관리, 채점 검토, 점수 공개 화면으로 이동합니다. `ProfessorSidebar`는 접고 펼칠 수 있습니다.
+- **수업 관리**: 수업별 과제 목록과 과제 상세를 보고, 학생 제출 현황을 확인합니다.
+- **과제 관리**: 등록한 과제 목록을 보여주고 등록·수정 화면으로 이동합니다. 등록한 과제는 목록에서 다시 열어 수정할 수 있습니다.
+- **과제 등록·수정**: 과제 내용 및 실행 조건, 테스트케이스, 정책 설정(제출·공개·검사 정책)의 3단계로 나누어 입력합니다.
+- **채점 검토와 점수 공개**: 학생 제출과 채점 결과를 검토하고, 점수 공개를 관리합니다.
+
 ## 서비스 규칙을 코드에 넣은 부분
 
 - **점수 숨김**: `ScoreDisplay`가 점수 노출을 한곳에서 처리합니다. 교수가 공개하기 전(`released=false`)에는 점수가 전달되어도 숫자를 그리지 않고 "공개 전"으로 표시합니다. 미제출이면 "—"로 표시합니다. Must 범위에서는 점수 칸(열, 탭) 자체를 숨기기로 팀에서 정해 서버 연동 시 반영합니다.
@@ -150,11 +170,12 @@ import { Button, Card, ScoreDisplay } from "../components";
 
 ## 서버 연동 전 임시 데이터
 
-서버(API)가 아직 없어서 학생 화면은 화면 폴더 안의 임시 데이터 파일로 동작합니다.
+서버(API)가 아직 없어서 학생·교수 화면은 임시 데이터로 동작합니다.
 
 - 문제: `src/pages/student/mockProblems.ts`
 - 제출·채점 결과: `src/pages/student/mockSubmissions.ts`
 - 공지, 알림처럼 한 화면에서만 쓰는 데이터는 그 화면 파일 위쪽에 있습니다.
+- 교수 화면의 수업·과제 데이터는 임시 데이터로 동작하며 브라우저의 `localStorage`에 저장합니다. 그래서 브라우저 저장 데이터를 지우면 등록한 과제가 사라집니다.
 
 API로 바꿀 자리에는 `// TODO: API` 주석을 남겨 두었습니다. 서버가 준비되면 이 주석을 찾아 임시 데이터를 API 응답으로 교체합니다.
 
@@ -162,6 +183,7 @@ API로 바꿀 자리에는 `// TODO: API` 주석을 남겨 두었습니다. 서�
 
 [팀 노션](https://app.notion.com/p/AutoTA-3d8606cfd1b080d19e55e8d4c212b502?source=copy_link)의 API 명세서(Must 14개) 기준으로 아래 내용을 팀과 맞췄습니다. 서버 응답이 명세와 같다는 전제입니다.
 
+- **교수 화면**: 서버 연동 후 `localStorage` 저장을 API 호출로 교체하고, 로그인 이후 교수 화면으로 이동하는 흐름을 연결합니다.
 - **점수**: Must 단계에서는 숨깁니다. 점수 열과 탭은 화면에서 빼고, 공개 기능은 이후 단계에서 붙입니다.
 - **과제 목록**: `GET /courses/{courseId}/assignments` 응답(과제와 그 안의 문제)으로 `/student` 아래에 과제 목록 화면을 추가합니다.
 - **목록 API 공통화**: 학생·교수 목록 API는 역할로 나누지 않고 공통으로 쓰며, 역할별 필드는 서버가 정합니다. 해당 없는 필드는 `null`로 내려오므로 화면에서 `null`을 처리합니다.
@@ -169,13 +191,12 @@ API로 바꿀 자리에는 `// TODO: API` 주석을 남겨 두었습니다. 서�
 
 ## 브랜치와 작업 방식
 
-- 원본 레포(`pproject-AutoTA/FE`)를 본인 계정으로 포크해서 작업합니다. 포크는 `origin`, 원본은 `upstream`으로 등록합니다.
-- 기능별로 `이름/작업이름` 브랜치를 만들어 작업합니다. 예) `김채은/component`, `김채은/auth`, `김채은/student`
-- PR은 본인 포크의 작업 브랜치에서 원본 레포의 `main`으로 올리고, 본문에 `관련 이슈: #번호`와 화면 캡처를 넣습니다. 화면 캡처는 레포에 파일로 두지 않고 PR 본문에만 첨부합니다.
-- 작업 전에는 `git fetch upstream`으로 원본 `main`의 변경을 확인하고, 필요하면 작업 브랜치를 그 위로 옮깁니다.
+- 본인 포크(`origin`)의 기본 브랜치(`이름/main`)에서 기능별 `이름/작업이름` 브랜치를 만들어 작업합니다. 원본 레포는 `upstream`으로 등록해 둡니다. 예) `김채은/auth`, `김채은/student`
+- PR은 `이름/main` ← `이름/작업이름` 으로 올리고, 본문에 `관련 이슈: #번호`와 화면 캡처를 넣습니다. 화면 캡처는 레포에 파일로 두지 않고 PR 본문에만 첨부합니다.
 - 커밋 메시지는 `feat:`, `fix:`, `refactor:`, `chore:`, `docs:`, `style:` 접두사를 씁니다.
 - 공통 컴포넌트(`src/components`) 변경은 화면 PR에 섞지 않고 별도 PR로 올립니다.
 - README 수정은 PR 없이 `main`에서 직접 합니다.
+- 화면별 담당: 로그인 계열·학생 화면은 김채은, 교수·시스템 관리자 화면은 박은아입니다.
 - 화면별 담당자와 진행 현황은 [팀 노션](https://app.notion.com/p/AutoTA-3d8606cfd1b080d19e55e8d4c212b502?source=copy_link) 문서에서 관리합니다.
 
 ## 개발 메모
