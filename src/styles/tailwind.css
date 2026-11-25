@@ -1,0 +1,99 @@
+/* Tailwind CSS 4
+ * - 디자인 토큰(색/글꼴/둥글기/그림자)은 아래 @theme 한 곳에서만 관리한다.
+ * - preflight(초기화 스타일)는 불러오지 않고 theme / utilities 만 사용한다. */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@theme {
+  /* brand */
+  --color-navy-900: #123b70;
+  --color-navy-800: #22487a;
+  --color-navy-700: #395c88;
+  --color-blue-700: #165fd1;
+  --color-blue-600: #1d6ff2;
+  --color-blue-50: #eaf2ff;
+  --color-blue-25: #f4f8ff;
+
+  /* surface */
+  --color-bg: #f5f7fb;
+  --color-surface: #ffffff;
+  --color-th-bg: #fafbfc;
+  --color-border: #e5e9f1;
+  --color-border-strong: #d5dbe7;
+  --color-divider: #eef1f6;
+
+  /* 글자색: text-fg / text-fg-body / text-fg-secondary / text-fg-tertiary */
+  --color-fg: #182136;
+  --color-fg-body: #485064;
+  --color-fg-secondary: #6c7486;
+  --color-fg-tertiary: #9aa3b5;
+
+  /* status */
+  --color-success-bg: #e8f7f1;
+  --color-success-fg: #168963;
+  --color-danger-bg: #fdecee;
+  --color-danger-fg: #cb3b4d;
+  --color-flag-bg: #fff3e5;
+  --color-flag-fg: #c66a1b;
+  --color-flag-border: #f6d9b8;
+  --color-flag-text: #8f4c0f;
+  --color-amber-bg: #fff6d1;
+  --color-amber-fg: #8a6500;
+  --color-neutral-bg: #f1f3f7;
+  --color-neutral-fg: #6c7486;
+  --color-info-bg: #eaf2ff;
+  --color-info-fg: #1d6ff2;
+  --color-info-border: #cfe0fd;
+  --color-info-text: #2b4f96;
+  --color-purple-bg: #f1edff;
+  --color-purple-fg: #6d4ae0;
+
+  /* code */
+  --color-code-bg: #111827;
+  --color-code-chip: #202a42;
+  --color-code-text: #d6deef;
+  --color-code-no: #536078;
+
+  /* font */
+  --font-sans: "Noto Sans KR", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-modal: 24px;
+
+  /* shadow */
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-md: 0 8px 24px rgba(16, 24, 40, 0.08);
+  --shadow-lg: 0 24px 48px rgba(16, 24, 40, 0.14);
+  --shadow-btn: 0 8px 20px rgba(29, 111, 242, 0.25);
+  --shadow-ring: 0 0 0 4px rgba(29, 111, 242, 0.18);
+
+  /* animation */
+  --animate-shimmer: shimmer 1.4s infinite;
+  @keyframes shimmer {
+    to {
+      background-position: -200% 0;
+    }
+  }
+}
+
+@layer base {
+  body {
+    margin: 0;
+    font: 400 16px/26px var(--font-sans);
+    color: var(--color-fg);
+    background: var(--color-bg);
+  }
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+}
