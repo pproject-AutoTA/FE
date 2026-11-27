@@ -1,0 +1,10 @@
+export { StudentGuide } from "./StudentGuide";
+export { StudentHome } from "./StudentHome";
+export { StudentJoin } from "./StudentJoin";
+export { StudentLayout } from "./StudentLayout";
+export { StudentNotices } from "./StudentNotices";
+export { StudentPlaceholder } from "./StudentPlaceholder";
+export { StudentProblems } from "./StudentProblems";
+export { StudentResultDetail } from "./StudentResultDetail";
+export { StudentResults } from "./StudentResults";
+export { StudentSubmit } from "./StudentSubmit";
